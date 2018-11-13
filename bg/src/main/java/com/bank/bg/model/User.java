@@ -1,8 +1,10 @@
 package com.bank.bg.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
@@ -11,6 +13,8 @@ public class User {
 	@GeneratedValue
 	private Long id;
 
+	@NotNull
+	@Column(nullable = false, unique = true)
 	private String username;
 	private String email;
 

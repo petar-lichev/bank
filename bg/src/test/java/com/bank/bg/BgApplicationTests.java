@@ -1,14 +1,17 @@
 package com.bank.bg;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.bank.bg.model.Account;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
+@Transactional
 public class BgApplicationTests {
 
 	@PersistenceContext
@@ -65,6 +71,49 @@ public class BgApplicationTests {
 		assertTrue(user_columns.contains("id"));
 		assertTrue(user_columns.contains("username"));
 		assertTrue(user_columns.contains("email"));
+
+	}
+
+	@Test
+	public void notNullConstraint() {
+		try {
+
+			String insert_null_query = "insert into user(id, username, email) values(:id, null, 'dsd')";
+			Query q = em.createNativeQuery(insert_null_query);
+			q.setParameter("id", 222L);
+
+			q.executeUpdate();
+		} catch (PersistenceException e) {
+			
+			assertEquals("Column 'username' cannot be null", e.getCause().getCause().getMessage());
+
+		}
+		
+		
+		try {
+			String insert_null_query = "insert into user(id, username, email) values(:id, 'ddsds', null)";
+			Query q = em.createNativeQuery(insert_null_query);
+			q.setParameter("id", 222L);
+		}catch (PersistenceException e) {
+			
+			assertEquals("Column 'email' cannot be null", e.getCause().getCause().getMessage());
+
+		}
+	}
+
+	@Test
+	public void integrityConstraints() {
+		Account a1 = new Account();
+		em.persist(a1);
+
+		Query queryA = em.createQuery("SELECT a.id FROM Account a");
+
+		List<Long> bla = queryA.getResultList();
+		for (Long o : bla) {
+			System.out.println(o);
+			System.out.println(o.equals(1L));
+		}
+		assertTrue(bla.contains(1L));
 
 	}
 
