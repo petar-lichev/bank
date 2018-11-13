@@ -16,6 +16,8 @@ public class User {
 	@NotNull
 	@Column(nullable = false, unique = true)
 	private String username;
+	
+	
 	private String email;
 
 	public String getUsername() {
