@@ -12,6 +12,7 @@ import com.bank.bg.BgApplicationTests;
 
 public class AccountTests extends BgApplicationTests {
 
+	@SuppressWarnings({ "unchecked", "unlikely-arg-type" })
 	@Test
 	public void accountModelTest() {
 //		
@@ -36,6 +37,7 @@ public class AccountTests extends BgApplicationTests {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void integrityConstraints() {
 		Account a1 = new Account();
@@ -45,8 +47,6 @@ public class AccountTests extends BgApplicationTests {
 
 		List<Long> bla = queryA.getResultList();
 		for (Long o : bla) {
-			System.out.println(o);
-			System.out.println(o.equals(1L));
 		}
 		assertTrue(bla.contains(1L));
 
