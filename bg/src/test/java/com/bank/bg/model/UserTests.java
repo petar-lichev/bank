@@ -109,5 +109,38 @@ public class UserTests extends BgApplicationTests {
 		}
 
 	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	@Rollback(false)
+	public void uniqueEmailConstraint() {
+		boolean flag = false;
+		try {
+			EntityManager em = factory.createEntityManager();
+			
+			em.getTransaction().begin();
+			User u1 = new User();
+			u1.setUsername("USERNAME1");
+			u1.setEmail("same_email");
+			em.persist(u1);
+
+			User u3 = new User();
+			u3.setUsername("USERNAME2");
+			u3.setEmail("same_email");
+
+			em.persist(u3);
+			em.getTransaction().commit();
+			em.close();
+		} catch (Exception e) {
+			flag = true;
+			assertTrue(e.getCause().getCause() instanceof org.hibernate.exception.ConstraintViolationException);
+
+		}
+		
+		assertTrue(flag);
+
+	}
 
 }
