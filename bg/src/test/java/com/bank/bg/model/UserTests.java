@@ -45,7 +45,7 @@ public class UserTests extends BgApplicationTests {
 
 	@Test
 	public void notNullUsernameConstraint() {
-
+		boolean flag = false;
 		try {
 			String insert_null_query = "insert into user(id, username, email) values(:id, null, 'dsd')";
 			Query q = em.createNativeQuery(insert_null_query);
@@ -53,14 +53,19 @@ public class UserTests extends BgApplicationTests {
 			q.executeUpdate();
 
 		} catch (PersistenceException e) {
+			
+			flag = true;
 			assertTrue(e.getCause() instanceof org.hibernate.exception.ConstraintViolationException);
 
 		}
+		
+		assertTrue(flag);
 
 	}
 
 	@Test
 	public void notNullEmailConstraint() {
+		boolean flag = false;
 
 		try {
 			String insert_null_query = "insert into user(id, username, email) values(:id, 'ddsds', null)";
@@ -69,8 +74,11 @@ public class UserTests extends BgApplicationTests {
 			q.executeUpdate();
 
 		} catch (PersistenceException e) {
+			flag = true;
 			assertTrue(e.getCause() instanceof org.hibernate.exception.ConstraintViolationException);
 		}
+		
+		assertTrue(flag);
 
 	}
 
