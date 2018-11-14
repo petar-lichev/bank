@@ -33,13 +33,14 @@ public class ReferentialIntegrityTests extends BgApplicationTests{
 		assertTrue(flag);
 	}
 	
-	//@Test
-	public void foreignKeysInUser() {
+	@Test
+	public void foreignKeysInTransaction() {
 		
 		List<String> foreign_keys = new ArrayList<String>();
-		foreign_keys.add("ACCOUNT_ID");
+		foreign_keys.add("SENDER_ID");
+		foreign_keys.add("RECEIVER_ID");
 		
-		Query query_foreign_keys = em.createNativeQuery("SELECT fkcolumn_name FROM INFORMATION_SCHEMA.CROSS_REFERENCES where fktable_name='USER';");
+		Query query_foreign_keys = em.createNativeQuery("SELECT fkcolumn_name FROM INFORMATION_SCHEMA.CROSS_REFERENCES where fktable_name='TRANSACTION';");
 		List<String> lista = query_foreign_keys.getResultList();
 		
 		boolean flag = !lista.isEmpty();
