@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.junit.Test;
@@ -51,5 +52,27 @@ public class AccountTests extends BgApplicationTests {
 		assertTrue(bla.contains(1L));
 
 	}
+	
+	public void referentialIntegrityConstraints() {
+		try {
+			EntityManager em = factory.createEntityManager();
+			
+			em.getTransaction().begin();
+			User u1 = new User();
+			u1.setUsername("SAME_USERNAME");
+			u1.setEmail("dsadad");
+			em.persist(u1);
+
+			em.getTransaction().commit();
+			
+			em.close();
+		} catch (Exception e) {
+			assertTrue(e.getCause().getCause() instanceof org.hibernate.exception.ConstraintViolationException);
+
+		}
+	}
+	
+	
+	
 
 }

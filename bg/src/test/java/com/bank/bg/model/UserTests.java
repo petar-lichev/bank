@@ -20,8 +20,7 @@ public class UserTests extends BgApplicationTests {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	@Autowired
-	EntityManagerFactory factory;
+	
 
 	@SuppressWarnings({ "unlikely-arg-type", "unchecked" })
 	@Test
@@ -142,5 +141,21 @@ public class UserTests extends BgApplicationTests {
 		assertTrue(flag);
 
 	}
+	
+	@Test
+	public void equalsTest() {
+		User u1 = new User();
+		User u2 = new User();
+		u1.setId(1L);
+		u2.setId(1L);
+		u1.setUsername("ddd");
+		u2.setUsername("ddd");
+		u1.setEmail("bla");
+		u2.setEmail("bla");
+		
+		assertTrue(u1 != u2);
+		assertTrue(u1.equals(u2));
+	}
+	
 
 }

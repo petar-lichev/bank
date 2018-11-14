@@ -16,7 +16,7 @@ public class User {
 	@NotNull
 	@Column(nullable = false, unique = true)
 	private String username;
-	
+
 	@Column(nullable = false, unique = true)
 	private String email;
 
@@ -43,5 +43,36 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (obj == this) {
+			return true;
+		}
+		
+		if(!(obj instanceof User)) {
+			return false;
+		}
+		
+		User u = (User) obj;
+		System.out.println(u.email + u.username + u.id);
+		
+		return this.id == u.id && this.username == u.username && this.email == u.email;
+
+	}
+	
+	
+	@Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 53 * hash + (this.username != null ? this.username.hashCode() : 0);
+        hash = 53 * hash + (this.email != null ? this.email.hashCode() : 0);
+        return hash;
+    }
 
 }
