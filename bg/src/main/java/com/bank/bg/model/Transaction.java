@@ -20,6 +20,16 @@ public class Transaction {
 	@ManyToOne
 	@JoinColumn(name="receiver_id")
 	private Account receiver;
+	
+	private Double amount;
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
 
 	public Long getId() {
 		return id;
