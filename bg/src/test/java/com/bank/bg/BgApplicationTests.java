@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test.properties")
-@Transactional
 public class BgApplicationTests {
 
 	@Autowired
