@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bank.bg.BgApplicationTests;
 
@@ -40,6 +41,7 @@ public class AccountTests extends BgApplicationTests {
 	
 	@SuppressWarnings("unchecked")
 	@Test
+	@Transactional
 	public void integrityConstraints() {
 		Account a1 = new Account();
 		em.persist(a1);

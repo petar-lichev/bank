@@ -1,5 +1,7 @@
 package com.bank.bg.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,6 +23,17 @@ public class Transaction {
 	@JoinColumn(name="receiver_id")
 	private Account receiver;
 	
+	
+	private LocalDateTime date_time;
+	
+	public LocalDateTime getDate_time() {
+		return date_time;
+	}
+
+	public void setDate_time(LocalDateTime date_time) {
+		this.date_time = date_time;
+	}
+
 	private Double amount;
 
 	public Double getAmount() {
