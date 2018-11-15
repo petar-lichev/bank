@@ -33,7 +33,7 @@ public class TransactionController {
 		Optional<Account> sender = account_repo.findById(15L);
 		Optional<Account> receiver = account_repo.findById(25L);
 		
-		transaction_service.transfer(sender.get(), receiver.get(), (double)500);
+		transaction_service.transfer(sender.get().getId(), receiver.get().getId(), (double)500);
 		
 		return new ResponseEntity("dasdasdas", HttpStatus.OK);
 		
