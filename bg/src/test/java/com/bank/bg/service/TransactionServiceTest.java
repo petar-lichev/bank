@@ -137,9 +137,10 @@ public class TransactionServiceTest extends BgApplicationTests {
 		
 		List<Transaction> transactions_list = transaction_service.getTransactionsInPeriod(LocalDateTime.now().toLocalDate().minusDays(2), LocalDateTime.now().toLocalDate());
 		
-		System.out.println(transactions_list.size());
+		System.out.println("Transactions found: " + transactions_list.size());
 		assertTrue(transactions_list.size() == 4);
 		for(Transaction tr: transactions_list) {
+			System.out.println(tr);
 			assertTrue(tr.getDate_time().toLocalDate().equals(LocalDate.now()));
 		}
 		

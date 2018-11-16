@@ -67,4 +67,9 @@ public class Transaction {
 	public void setReceiver(Account receiver) {
 		this.receiver = receiver;
 	}
+	
+	@Override
+	public String toString() {
+		return "--ID--" + this.id + "------" + this.date_time + "-SENDER-" + this.sender.getId() + "-RECEIVER-" + this.receiver.getId() + "-AMOUNT-" + this.amount;
+	}
 }

@@ -61,11 +61,11 @@ public class TransactionService {
 	
 	public List<Transaction> getTransactionsInPeriod(LocalDate from, LocalDate to) {
 		LocalDateTime from_LocalDateTime = from.atStartOfDay();
-		LocalDateTime to_LocalDateTime = to.atStartOfDay();
+		LocalDateTime to_LocalDateTime = to.plusDays(1).atStartOfDay();
 		
-		Query query = em.createQuery("SELECT tr from Transaction tr");
-//		query.setParameter("from", from_LocalDateTime);
-//		query.setParameter("to", to_LocalDateTime);
+		Query query = em.createQuery("SELECT tr from Transaction tr where tr.date_time >= :start_period and tr.date_time <= :end_period");
+		query.setParameter("start_period", from_LocalDateTime);
+		query.setParameter("end_period", to_LocalDateTime);
 		
 		return query.getResultList();
 	
