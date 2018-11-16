@@ -9,13 +9,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bank.bg.model.Account;
 import com.bank.bg.model.Transaction;
@@ -30,7 +31,7 @@ public class TransactionService {
 	@PersistenceContext
 	private EntityManager em;
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void transfer(Long sender_id, Long receiver_id, Double amount) throws Exception {
 
 		Account sender = em.find(Account.class, sender_id);
@@ -69,6 +70,16 @@ public class TransactionService {
 		
 		return query.getResultList();
 	
+	}
+
+
+	public List<Transaction> getOutgoingTransactions(Long account_id) {
+//		Account acc = em.find(Account.class, account_id);
+		
+		Query q = em.createQuery("Select tr from Transaction tr where tr.sender.id = :acc_id");
+		q.setParameter("acc_id", account_id);
+		
+		return q.getResultList();
 	}
 
 }

@@ -8,12 +8,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bank.bg.BgApplicationTests;
 import com.bank.bg.model.Account;
@@ -124,8 +124,6 @@ public class TransactionServiceTest extends BgApplicationTests {
 		query1.setParameter("account", account2);
 		list_acc = query1.getResultList();
 		Account acc_new2 = list_acc.get(0);
-		System.out.println(acc_new1.getAmount());
-		System.out.println(acc_new2.getAmount());
 
 		assertTrue(acc_new1.getAmount() == 1000);
 		assertTrue(acc_new2.getAmount() == 1000);
@@ -143,11 +141,24 @@ public class TransactionServiceTest extends BgApplicationTests {
 			System.out.println(tr);
 			assertTrue(tr.getDate_time().toLocalDate().equals(LocalDate.now()));
 		}
-		
-		
-		
-		
+
 	}
+	
+	
+	@Test
+	public void checkOutgoingTransactionsForAccount() {
+		
+		List<Transaction> transactions_list = transaction_service.getOutgoingTransactions(account1.getId());
+		
+		assertTrue(transactions_list.size() == 2);
+		System.out.println("Sender ID: " + account1.getId());
+		for(Transaction tr: transactions_list) {
+			System.out.println(tr);
+			assertTrue(tr.getSender().equals(account1));
+		}
+	}
+	
+	
 	
 	
 	

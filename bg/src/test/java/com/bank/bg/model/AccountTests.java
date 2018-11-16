@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bank.bg.BgApplicationTests;
 
